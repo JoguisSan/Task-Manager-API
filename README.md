@@ -1,72 +1,72 @@
 # 📋 Task Manager API
 
-API RESTful de gerenciamento de tarefas construída com **Spring Boot 3** e **Java 17**, com autenticação **JWT**, testes automatizados e pipeline de CI/CD. Projeto desenvolvido como peça de portfólio para demonstrar boas práticas de desenvolvimento backend.
+RESTful API for task management built with **Spring Boot 3** and **Java 17**, featuring **JWT** authentication, automated tests, and a CI/CD pipeline. Built as a portfolio project to demonstrate backend development best practices.
 
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-brightgreen)
 ![Maven](https://img.shields.io/badge/Maven-Build-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## ✨ Funcionalidades
+## ✨ Features
 
-- 🔐 Autenticação e registro de usuários com **JWT**
-- 🔒 Senhas criptografadas com **BCrypt**
-- ✅ CRUD completo de tarefas (criar, listar, buscar, atualizar, excluir)
-- 👤 Cada usuário só acessa suas próprias tarefas
-- 🔎 Filtro de tarefas por status (`PENDING`, `IN_PROGRESS`, `DONE`) e paginação
-- ⚠️ Tratamento global de erros com mensagens padronizadas
-- 📖 Documentação interativa via **Swagger/OpenAPI**
-- 🧪 Testes unitários e de integração (JUnit 5, Mockito, MockMvc)
-- 🐳 Containerização com **Docker** e **Docker Compose** (app + PostgreSQL)
-- ⚙️ Pipeline de **CI** com GitHub Actions (build + testes a cada push/PR)
+- 🔐 User authentication and registration with **JWT**
+- 🔒 Passwords encrypted with **BCrypt**
+- ✅ Full task CRUD (create, list, retrieve, update, delete)
+- 👤 Each user can only access their own tasks
+- 🔎 Task filtering by status (`PENDING`, `IN_PROGRESS`, `DONE`) and pagination
+- ⚠️ Global error handling with standardized responses
+- 📖 Interactive API documentation via **Swagger/OpenAPI**
+- 🧪 Unit and integration tests (JUnit 5, Mockito, MockMvc)
+- 🐳 Containerized with **Docker** and **Docker Compose** (app + PostgreSQL)
+- ⚙️ **CI** pipeline with GitHub Actions (build + tests on every push/PR)
 
-## 🛠️ Stack Técnica
+## 🛠️ Tech Stack
 
-| Camada           | Tecnologia                          |
-|------------------|--------------------------------------|
-| Linguagem        | Java 17                              |
+| Layer            | Technology                           |
+|------------------|----------------------------------------|
+| Language         | Java 17                              |
 | Framework        | Spring Boot 3 (Web, Security, JPA)   |
-| Banco de dados   | PostgreSQL (produção) / H2 (testes)  |
-| Autenticação     | JWT (jjwt)                           |
-| Documentação     | springdoc-openapi (Swagger UI)       |
-| Testes           | JUnit 5, Mockito, Spring Security Test |
+| Database         | PostgreSQL (production) / H2 (tests) |
+| Authentication   | JWT (jjwt)                           |
+| Documentation    | springdoc-openapi (Swagger UI)       |
+| Testing          | JUnit 5, Mockito, Spring Security Test |
 | Build            | Maven                                |
-| Containerização  | Docker, Docker Compose               |
+| Containerization | Docker, Docker Compose               |
 | CI/CD            | GitHub Actions                       |
 
-## 🏗️ Arquitetura
+## 🏗️ Architecture
 
-O projeto segue uma arquitetura em camadas (*layered architecture*):
+The project follows a layered architecture:
 
 ```
-controller  → recebe requisições HTTP e retorna respostas
-service     → contém as regras de negócio
-repository  → acesso a dados via Spring Data JPA
-entity      → modelos de domínio (JPA)
-dto         → objetos de transferência de dados (request/response)
-security    → filtro JWT e configuração de autenticação
-exception   → tratamento centralizado de erros
-config      → configurações (Security, OpenAPI)
+controller  → handles HTTP requests and returns responses
+service     → contains business logic
+repository  → data access via Spring Data JPA
+entity      → domain models (JPA)
+dto         → data transfer objects (request/response)
+security    → JWT filter and authentication configuration
+exception   → centralized error handling
+config      → configuration (Security, OpenAPI)
 ```
 
-## 🚀 Como executar
+## 🚀 Getting Started
 
-### Opção 1 — Docker Compose (recomendado)
+### Option 1 — Docker Compose (recommended)
 
-Sobe a aplicação e o banco PostgreSQL com um único comando:
+Spins up the application and the PostgreSQL database with a single command:
 
 ```bash
 docker compose up --build
 ```
 
-A API estará disponível em `http://localhost:8080`.
+The API will be available at `http://localhost:8080`.
 
-### Opção 2 — Localmente com Maven
+### Option 2 — Locally with Maven
 
-Pré-requisitos: Java 17, Maven, PostgreSQL rodando localmente.
+Prerequisites: Java 17, Maven, PostgreSQL running locally.
 
 ```bash
-# Configure as variáveis de ambiente (ou ajuste application.yml)
+# Set the environment variables (or adjust application.yml)
 export DB_HOST=localhost
 export DB_PORT=5432
 export DB_NAME=taskmanager
@@ -76,65 +76,65 @@ export DB_PASSWORD=postgres
 mvn spring-boot:run
 ```
 
-### Rodando os testes
+### Running the tests
 
 ```bash
 mvn test
 ```
 
-## 📖 Documentação da API (Swagger)
+## 📖 API Documentation (Swagger)
 
-Com a aplicação rodando, acesse:
+With the application running, visit:
 
 ```
 http://localhost:8080/swagger-ui.html
 ```
 
-## 🔑 Autenticação — fluxo rápido
+## 🔑 Authentication — quick flow
 
-**1. Registrar um usuário**
+**1. Register a user**
 ```bash
 curl -X POST http://localhost:8080/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"username":"joao","email":"joao@email.com","password":"senha123"}'
+  -d '{"username":"john","email":"john@email.com","password":"password123"}'
 ```
 
-**2. Fazer login e obter o token**
+**2. Log in and get the token**
 ```bash
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"joao","password":"senha123"}'
+  -d '{"username":"john","password":"password123"}'
 ```
 
-**3. Usar o token nas requisições protegidas**
+**3. Use the token on protected requests**
 ```bash
 curl -X GET http://localhost:8080/api/tasks \
-  -H "Authorization: Bearer <SEU_TOKEN_AQUI>"
+  -H "Authorization: Bearer <YOUR_TOKEN_HERE>"
 ```
 
-## 📌 Endpoints principais
+## 📌 Main Endpoints
 
-| Método | Endpoint            | Descrição                          | Autenticado |
-|--------|---------------------|-------------------------------------|-------------|
-| POST   | `/api/auth/register`| Cria um novo usuário                | Não         |
-| POST   | `/api/auth/login`   | Autentica e retorna o token JWT      | Não         |
-| POST   | `/api/tasks`        | Cria uma nova tarefa                | Sim         |
-| GET    | `/api/tasks`        | Lista as tarefas do usuário (paginado, filtro por status) | Sim |
-| GET    | `/api/tasks/{id}`   | Busca uma tarefa específica          | Sim         |
-| PUT    | `/api/tasks/{id}`   | Atualiza uma tarefa                  | Sim         |
-| DELETE | `/api/tasks/{id}`   | Remove uma tarefa                    | Sim         |
+| Method | Endpoint             | Description                                              | Auth Required |
+|--------|-----------------------|-----------------------------------------------------------|---------------|
+| POST   | `/api/auth/register`  | Creates a new user                                         | No            |
+| POST   | `/api/auth/login`     | Authenticates and returns the JWT token                    | No            |
+| POST   | `/api/tasks`          | Creates a new task                                         | Yes           |
+| GET    | `/api/tasks`          | Lists the user's tasks (paginated, filterable by status)   | Yes           |
+| GET    | `/api/tasks/{id}`     | Retrieves a specific task                                   | Yes           |
+| PUT    | `/api/tasks/{id}`     | Updates a task                                              | Yes           |
+| DELETE | `/api/tasks/{id}`     | Deletes a task                                              | Yes           |
 
-## 🗺️ Possíveis melhorias futuras
+## 🗺️ Possible Future Improvements
 
 - Refresh tokens
-- Compartilhamento de tarefas entre usuários
-- Notificações de prazos próximos
-- Deploy automatizado (CD) para um serviço cloud
+- Task sharing between users
+- Due date notifications
+- Automated deployment (CD) to a cloud service
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT — veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-Desenvolvido como projeto de portfólio, com foco em boas práticas de arquitetura, segurança e testes em aplicações Spring Boot.
+Built as a portfolio project, with a focus on architecture, security, and testing best practices in Spring Boot applications.
